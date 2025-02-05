@@ -3,23 +3,22 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
-import TaskList from "./assets/components/TaskList";
-import AddTask from "./assets/components/AddTask";
 import Registor from "./Auth/Registor.jsx";
 import Login from "./Auth/Login.jsx";
+import TaskList from "./components/TaskList.jsx";
+import AddTask from "./components/AddTask.jsx";
+import ErrorPage from "./components/ErrorPage.jsx";
 
-// ✅ Define `ProtectedRoute` inside `index.jsx`
-const isAuthorized = localStorage.getItem("jwt"); // Check if token exists
+const isAuthorized = localStorage.getItem("jwt"); 
 const ProtectedRoute = () => {
   
   return isAuthorized ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
-// ✅ Configure the router with `ProtectedRoute`
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <ProtectedRoute />, // Protect all routes
+    element: <ProtectedRoute />, 
     children: [
       {
         path: "/",
@@ -37,21 +36,24 @@ const router = createBrowserRouter([
             path: "updatetask/:id",
             element: <AddTask />,
           },
+          {
+            path: "*",
+            element: <ErrorPage />,
+          },
         ],
       },
     ],
   },
   {
     path: "/login",
-    element: isAuthorized ? <Navigate to="/" replace /> : <Login />, // Public route
+    element: isAuthorized ? <Navigate to="/" replace /> : <Login />, 
   },
   {
     path: "/registor",
-    element: isAuthorized ? <Navigate to="/" replace /> : <Registor />, // Public route
+    element: isAuthorized ? <Navigate to="/" replace /> : <Registor />,
   },
 ]);
 
-// ✅ Render the app
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <RouterProvider router={router} />

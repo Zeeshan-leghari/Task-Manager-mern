@@ -35,7 +35,7 @@ const Registor = () => {
           toast.error(errors.email._errors[0]); 
         }
         if (errors.password) {
-          toast.error(errors.password._errors[0]); // 
+          toast.error(errors.password._errors[0]); 
         }
       } else {
         toast.error(error.response?.data?.message || "Registration failed!");
@@ -53,7 +53,7 @@ const Registor = () => {
             <input
               type="text"
               placeholder="Enter your username"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-2 border bg-white text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               {...register("username", { required: "Username is required" })}
             />
             {errors.username && (
@@ -66,7 +66,7 @@ const Registor = () => {
             <input
               type="email"
               placeholder="Enter your email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-2 border bg-white text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               {...register("email", { 
                 required: "Email is required", 
                 pattern: {
@@ -84,7 +84,7 @@ const Registor = () => {
             <input
               type="password"
               placeholder="Enter your password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-2 border bg-white text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               {...register("password", { required: "Password is required" })}
             />
             {errors.password && (

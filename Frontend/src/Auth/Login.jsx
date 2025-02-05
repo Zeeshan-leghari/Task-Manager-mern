@@ -24,8 +24,15 @@ const Login = () => {
       navigate("/"); 
       console.log(response.data);
     } catch (error) {
-      toast.error(error.response.data.message);  
-      console.log(error);
+      console.log(error); 
+    
+      if (error.response) {
+        toast.error(error.response.data.message || "Login failed!");
+      } else if (error.request) {
+        toast.error("No response from server. Please try again later.");
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 
@@ -39,7 +46,7 @@ const Login = () => {
             <input
               type="email"
               placeholder="Enter your email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-2 border bg-white text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               {...register("email", { 
                 required: "Email is required",
                 pattern: {
@@ -57,7 +64,7 @@ const Login = () => {
             <input
               type="password"
               placeholder="Enter your password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-2 border bg-white text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               {...register("password", { required: "Password is required" })}
             />
             {errors.password && (

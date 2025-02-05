@@ -21,8 +21,14 @@ const AddTask = () => {
       const fetchTask = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:4000/readone/${id}`
-          );
+            `http://localhost:4000/readone/${id}`,
+         {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        } );
           const taskData = response.data.task;
 
           if (taskData) {
@@ -42,16 +48,27 @@ const AddTask = () => {
   const onSubmit = async (data) => {
     try {
       if (id) {
-        await axios.put(`http://localhost:4000/update/${id}`, data);
-        
-        toast.success("Task updated successfully!"); 
-  
+        await axios.put(`http://localhost:4000/update/${id}`, data, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        });
+
+        toast.success("Task updated successfully!");
+
         setTimeout(() => {
           navigate("/");
-        }, 1500); 
-  
+        }, 1500);
       } else {
-        await axios.post("http://localhost:4000/taskcreate/", data);
+        await axios.post("http://localhost:4000/taskcreate/", data, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        });
         toast.success("Task created successfully!");
         reset();
       }
@@ -61,8 +78,10 @@ const AddTask = () => {
   };
 
   return (
-    <div className="p-6 my-16 border-2 rounded-lg  mx-auto max-w-2xl bg-slate-100 ">
-      <h2 className="text-2xl font-semibold mb-4">
+    <>
+    <div className="flex w-full  bg-white ">
+    <div className="p-6 my-20 w-[700px]  border-2 rounded-lg  mx-auto max-w-2xl bg-slate-100 ">
+      <h2 className="text-2xl font-semibold ">
         {id ? "Update Task" : "Add a New Task"}{" "}
       </h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -74,7 +93,7 @@ const AddTask = () => {
             type="text"
             id="taskname"
             {...register("taskname", { required: "Task Name is required" })}
-            className="w-full p-2 border rounded-md"
+            className="w-full p-2 border rounded-md bg-white text-black"
           />
           {errors.taskname && (
             <p className="text-red-500">{errors.taskname.message}</p>
@@ -90,7 +109,7 @@ const AddTask = () => {
             {...register("description", {
               required: "Description is required",
             })}
-            className="w-full p-2 border rounded-md"
+            className="w-full p-2 border rounded-md bg-white text-black"
             rows="4"
           />
           {errors.description && (
@@ -105,7 +124,7 @@ const AddTask = () => {
           <select
             id="taskstatus"
             {...register("taskstatus", { required: "Task status is required" })}
-            className="w-full p-2 border rounded-md"
+            className="w-full p-2 border rounded-md bg-white text-black"
           >
             <option value="false">Pending</option>
             <option value="true">Completed</option>
@@ -142,6 +161,11 @@ const AddTask = () => {
         </button>
       </form>
     </div>
+
+    </div>
+    
+    </>
+    
   );
 };
 
